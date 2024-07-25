@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>Get Image</title>
+        <style>
+            body {
+                font-family: 'Satoshi-Black', sans-serif !important; 
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                background: linear-gradient(180deg,#0e1034,rgba(14,16,52,.516) 64.09%,rgba(14,16,52,0)),#58377b;
+            }
+
+            .container {
+                background: linear-gradient(180deg,#0e1034,rgba(14,16,52,.516) 64.09%,rgba(14,16,52,0)),#58377b;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                width: 75%;
+                max-width: 1000px;
+            }
+
+            .container-input {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+            }
+
+            h1 {
+                color: #fff;
+                font-size: 48px;
+                font-style: normal;
+                font-weight: 400;
+                text-decoration: none;
+                text-transform: none;
+                margin-bottom: 20px;
+            }
+
+            input[type="text"] {
+                width: calc(100% - 22px); 
+                padding: 12px 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 16px;
+                transition: border-color 0.3s ease;
+            }
+
+            input[type="text"]:focus {
+                outline: none;
+                border-color: white;
+            }
+
+            button {
+                background-color: #f87565;
+                color: white;
+                padding: 12px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                transition: background-color 0.3s ease;
+            }
+
+            button:hover {
+                background-color: linear-gradient(to right, #8BC34A, #4CAF50); /* Inverte o gradiente no hover */
+            }
+
+            #resultado {
+                margin-top: 20px;
+                font-size: 18px;
+                font-weight: bold;
+                color: white; /* Cor do resultado */
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+            <h1>Qual é a imagem ?</h1>
+            <div class="container-input">
+                <input type="text" id="texto" placeholder="Insira a URL aqui">
+                <button onclick="extrairTexto()">Gerar</button>
+            </div>
+            <div id="resultado"></div>
+        </div>
+
+        <script>    
+
+            function extrairTexto() {
+                const texto = document.getElementById("texto").value;
+                const resultado = extrairArquivo(texto);
+                document.getElementById("resultado").textContent = resultado;
+            }
+
+            function extrairArquivo(texto) {
+                const partes = texto.split('/');
+                for (let i = 0; i < partes.length; i++) {
+                    const parte = partes[i];
+                    if (parte.endsWith('.jpg') ||
+                        parte.endsWith('.png') ||
+                        parte.endsWith('.jpeg') ||
+                        parte.endsWith('.gif') ||
+                        parte.endsWith('.mp4') ||
+                        parte.endsWith('.heif') ||
+                        parte.endsWith('.svg')) {
+                    return parte;
+                    }
+                }
+                return "Não tem arquivo do tipo imagem ou vídeo nessa URL";
+            }
+
+        </script>
+    </body>
+</html>
