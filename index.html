@@ -98,8 +98,9 @@
             }
 
             function extrairArquivo(texto) {
-                const partes = texto.split('/');
-                //const partes = texto.split(/\/+\?+/g);
+                //const partes = texto.split('/');
+                const breakpoint = /\/?\??/;
+                const partes = texto.split(breakpoint);
                 for (let i = 0; i < partes.length; i++) {
                     const parte = partes[i];
                     if (parte.endsWith('.jpg') ||
