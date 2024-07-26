@@ -98,7 +98,7 @@
             }
 
             function extrairArquivo(texto) {
-                let textoBarra = texto.replace("?", "/");
+                let textoBarra = texto.replace(/\?/g, "/");
                 
                 const partes = textoBarra.split('/');
                 for (let i = 0; i < partes.length; i++) {
