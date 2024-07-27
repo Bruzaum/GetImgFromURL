@@ -27,7 +27,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-
+                position: relative; 
             }
 
             h1 {
@@ -63,6 +63,7 @@
                 cursor: pointer;
                 font-size: 16px;
                 transition: background-color 0.3s ease;
+                position: relative; 
             }
 
             button:hover {
@@ -73,9 +74,29 @@
                 margin-top: 20px;
                 font-size: 18px;
                 font-weight: bold;
-                color: white; /* Cor do resultado */
+                color: white;
             }
 
+            .tooltip {
+                visibility: hidden;
+                background-color: #555;
+                color: #fff;
+                text-align: center;
+                padding: 5px 10px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 1;
+                top: -30px; 
+                left: 95%; 
+                transform: translateX(-50%); 
+                opacity: 0;
+                transition: opacity 0.3s; 
+            }
+
+            .tooltip.show {
+                visibility: visible;
+                opacity: 1;
+            }
         </style>
     </head>
     <body>
@@ -85,6 +106,7 @@
             <div class="container-input">
                 <input type="text" id="texto" placeholder="Insira a URL aqui">
                 <button onclick="extrairTexto()">Gerar</button>
+                <div class="tooltip" id="tooltip">Copiado!</div>
             </div>
             <div id="resultado"></div>
         </div>
@@ -93,14 +115,30 @@
 
             function extrairTexto() {
                 const texto = document.getElementById("texto").value;
-                const resultado = extrairArquivo(texto);
+                let textoBarra = texto.replace("?", "/");
+                const resultado = extrairArquivo(textoBarra);
+
+                var copyText = extrairArquivo(textoBarra);
+
                 document.getElementById("resultado").textContent = resultado;
+
+                navigator.clipboard
+                .writeText(copyText)
+                .then(() => {
+                    document.getElementById("tooltip").classList.add("show");
+                    setTimeout(() => {
+                        document.getElementById("tooltip").classList.remove("show");
+                    }, 1000);
+                })
+                .catch(() => {
+                    alert("error");
+                });
             }
 
             function extrairArquivo(texto) {
-                let textoBarra = texto.replace(/\?/g, "/");
+                let textoBarra = texto.replace("?", "/");
                 
-                const partes = textoBarra.split('/');
+                const partes = texto.split('/');
                 for (let i = 0; i < partes.length; i++) {
                     const parte = partes[i];
                     if (parte.endsWith('.jpg') ||
